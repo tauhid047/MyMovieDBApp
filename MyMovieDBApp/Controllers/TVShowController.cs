@@ -12,10 +12,10 @@ namespace MyMovieDBApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MovieController : ControllerBase
+    public class TVShowController : ControllerBase
     {
-        [HttpGet("{movieId:int}")]
-        public async Task<string> GetByIdAsync(int movieId)
+        [HttpGet("{tvshowId:int}")]
+        public async Task<string> GetByIdAsync(int tvshowId)
         {
             HttpRequestMessage requestMessage = new HttpRequestMessage();
 
@@ -23,7 +23,7 @@ namespace MyMovieDBApp.Controllers
             UriBuilder uriBuilder = new UriBuilder();
             uriBuilder.Scheme = "https";
             uriBuilder.Host = TheMovieDBAPIConstants.Url;
-            uriBuilder.Path = "movie/" + movieId;
+            uriBuilder.Path = "tv/" + tvshowId;
 
             var query = HttpUtility.ParseQueryString(uriBuilder.Query);
             query["api_key"] = TheMovieDBAPIConstants.Key;
@@ -46,7 +46,7 @@ namespace MyMovieDBApp.Controllers
             UriBuilder uriBuilder = new UriBuilder();
             uriBuilder.Scheme = "https";
             uriBuilder.Host = TheMovieDBAPIConstants.Url;
-            uriBuilder.Path = "search/movie";
+            uriBuilder.Path = "search/tv";
 
             var query = HttpUtility.ParseQueryString(uriBuilder.Query);
             query["api_key"] = TheMovieDBAPIConstants.Key;
