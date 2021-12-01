@@ -2,6 +2,7 @@
 using MyMovieDBApp.Service.Interface;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MyMovieDBApp.Service
 {
@@ -21,15 +22,9 @@ namespace MyMovieDBApp.Service
             return SearchHistory;
         }
 
-        public void DeleteSearchHistory(int SearchHistoryId)
+        public SearchHistory GetSearchHistoryByKeyWord(string keyWord)
         {
-            _userContext.SearchHistory.Remove(GetSearchHistory(SearchHistoryId));
-            _userContext.SaveChanges();
-        }
-
-        public SearchHistory GetSearchHistory(int id)
-        {
-            return _userContext.SearchHistory.Find(id);
+            return _userContext.SearchHistory.ToList().FirstOrDefault(x => x.KeyWord == keyWord);
         }
 
         public IEnumerable<SearchHistory> GetSearchHistory()

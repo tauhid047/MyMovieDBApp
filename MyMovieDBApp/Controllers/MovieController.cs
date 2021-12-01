@@ -51,36 +51,46 @@ namespace MyMovieDBApp.Controllers
         [HttpGet("byName")]
         public async Task<string> GetByNameAsync(string movieName, int userId)
         {
-            HttpRequestMessage requestMessage = new HttpRequestMessage();
+            SearchHistory searchHistory = _searchHistory.GetSearchHistoryByKeyWord(movieName);
 
-            requestMessage.Method = HttpMethod.Get;
-            UriBuilder uriBuilder = new UriBuilder();
-            uriBuilder.Scheme = "https";
-            uriBuilder.Host = TheMovieDBAPIConstants.Url;
-            uriBuilder.Path = "search/movie";
-
-            var query = HttpUtility.ParseQueryString(uriBuilder.Query);
-            query["api_key"] = TheMovieDBAPIConstants.Key;
-            query["query"] = movieName;
-            uriBuilder.Query = query.ToString();
-            requestMessage.RequestUri = uriBuilder.Uri;
-
-            HttpClient client = new HttpClient();
-            CancellationToken cancellationToken = default;
-            HttpResponseMessage resp = await client.SendAsync(requestMessage, cancellationToken).ConfigureAwait(false);
-
-            string json = resp.Content.ReadAsStringAsync().Result;
-            var result = JsonConvert.DeserializeObject<SearchResult>(json);
-
-            SearchHistory history = new SearchHistory
+            if(searchHistory != null)
             {
-                UserId = userId,
-                KeyWord = movieName
-            };
+                return searchHistory.SearchData;
+            }
+            else
+            {
+                HttpRequestMessage requestMessage = new HttpRequestMessage();
 
-            _searchHistory.CreateSearchHistory(history);
+                requestMessage.Method = HttpMethod.Get;
+                UriBuilder uriBuilder = new UriBuilder();
+                uriBuilder.Scheme = "https";
+                uriBuilder.Host = TheMovieDBAPIConstants.Url;
+                uriBuilder.Path = "search/movie";
 
-            return json;
+                var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+                query["api_key"] = TheMovieDBAPIConstants.Key;
+                query["query"] = movieName;
+                uriBuilder.Query = query.ToString();
+                requestMessage.RequestUri = uriBuilder.Uri;
+
+                HttpClient client = new HttpClient();
+                CancellationToken cancellationToken = default;
+                HttpResponseMessage resp = await client.SendAsync(requestMessage, cancellationToken).ConfigureAwait(false);
+
+                string json = resp.Content.ReadAsStringAsync().Result;
+                var result = JsonConvert.DeserializeObject<SearchResult>(json);
+
+                SearchHistory history = new SearchHistory
+                {
+                    UserId = userId,
+                    KeyWord = movieName,
+                    SearchData = json
+                };
+
+                _searchHistory.CreateSearchHistory(history);
+
+                return json;
+            }            
         }
 
         //[HttpGet("{name}")]

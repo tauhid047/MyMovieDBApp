@@ -8,10 +8,8 @@ namespace MyMovieDBApp.Service.Interface
     {
         IEnumerable<SearchHistory> GetSearchHistory();
 
-        SearchHistory GetSearchHistory(int id);
+        SearchHistory GetSearchHistoryByKeyWord(string id);
 
         SearchHistory CreateSearchHistory(SearchHistory SearchHistory);
-
-        void DeleteSearchHistory(int SearchHistoryId);
     }
 }

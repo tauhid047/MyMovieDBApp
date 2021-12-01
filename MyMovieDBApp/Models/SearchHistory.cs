@@ -14,7 +14,11 @@ namespace MyMovieDBApp.Models
         public int UserId { get; set; }
 
         public User User { get; set; }
+
         [Required]
         public string KeyWord { get; set; }
+
+        [Required]
+        public string SearchData { get; set; }
     }
 }
