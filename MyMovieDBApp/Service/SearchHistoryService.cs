@@ -5,36 +5,36 @@ using System.Collections.Generic;
 
 namespace MyMovieDBApp.Service
 {
-    public class SearchHistorieservice : ISearchHistory
+    public class SearchHistoryservice : ISearchHistory
     {
         private UserContext _userContext;
 
-        public SearchHistorieservice(UserContext userContext)
+        public SearchHistoryservice(UserContext userContext)
         {
             _userContext = userContext;
         }
 
         public SearchHistory CreateSearchHistory(SearchHistory SearchHistory)
         {
-            _userContext.SearchHistories.Add(SearchHistory);
+            _userContext.SearchHistory.Add(SearchHistory);
             _userContext.SaveChanges();
             return SearchHistory;
         }
 
         public void DeleteSearchHistory(int SearchHistoryId)
         {
-            _userContext.SearchHistories.Remove(GetSearchHistory(SearchHistoryId));
+            _userContext.SearchHistory.Remove(GetSearchHistory(SearchHistoryId));
             _userContext.SaveChanges();
         }
 
         public SearchHistory GetSearchHistory(int id)
         {
-            return _userContext.SearchHistories.Find(id);
+            return _userContext.SearchHistory.Find(id);
         }
 
         public IEnumerable<SearchHistory> GetSearchHistory()
         {
-            return _userContext.SearchHistories;
+            return _userContext.SearchHistory;
         }
     }
 }

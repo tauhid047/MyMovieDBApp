@@ -35,6 +35,7 @@ namespace MyMovieDBApp
 
             services.AddDbContextPool<UserContext>(options => options.UseSqlServer(Configuration.GetConnectionString("UserContextConnectionString")));
             services.AddScoped<IUser, UserService>();
+            services.AddScoped<ISearchHistory, SearchHistoryservice>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

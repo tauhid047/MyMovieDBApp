@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MyMovieDBLib;
+using MyMovieDBApp.Models;
+using MyMovieDBApp.Service.Interface;
+using MyMovieDBApp.TheMovieDBModel;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,6 +16,13 @@ namespace MyMovieDBApp.Controllers
     [ApiController]
     public class MovieController : ControllerBase
     {
+        private readonly ISearchHistory _searchHistory;
+
+        public MovieController(ISearchHistory searchHistory)
+        {
+            _searchHistory = searchHistory;
+        }
+
         [HttpGet("{movieId:int}")]
         public async Task<string> GetByIdAsync(int movieId)
         {
@@ -33,13 +42,14 @@ namespace MyMovieDBApp.Controllers
             HttpClient client = new HttpClient();
             CancellationToken cancellationToken = default;
             HttpResponseMessage resp = await client.SendAsync(requestMessage, cancellationToken).ConfigureAwait(false);
-            string result = resp.Content.ReadAsStringAsync().Result;
-            return result;
+            string json = resp.Content.ReadAsStringAsync().Result;
+            var result = JsonConvert.DeserializeObject<IEnumerable<SearchResult>>(json);
+            return json;
         }
 
-        //api/movie/byName?movieName=naruto&userId=4CABA58F-F374-4362-838F-3075D345E1E6
+        //api/movie/byName?movieName=naruto&userId=2
         [HttpGet("byName")]
-        public async Task<string> GetByNameAsync(string movieName, string userId)
+        public async Task<string> GetByNameAsync(string movieName, int userId)
         {
             HttpRequestMessage requestMessage = new HttpRequestMessage();
 
@@ -58,11 +68,19 @@ namespace MyMovieDBApp.Controllers
             HttpClient client = new HttpClient();
             CancellationToken cancellationToken = default;
             HttpResponseMessage resp = await client.SendAsync(requestMessage, cancellationToken).ConfigureAwait(false);
-            string result = resp.Content.ReadAsStringAsync().Result;
 
+            string json = resp.Content.ReadAsStringAsync().Result;
+            var result = JsonConvert.DeserializeObject<SearchResult>(json);
 
+            SearchHistory history = new SearchHistory
+            {
+                UserId = userId,
+                KeyWord = movieName
+            };
 
-            return result;
+            _searchHistory.CreateSearchHistory(history);
+
+            return json;
         }
 
         //[HttpGet("{name}")]
