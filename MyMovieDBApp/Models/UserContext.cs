@@ -10,5 +10,6 @@ namespace MyMovieDBApp.Models
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<SearchHistory> SearchHistories { get; set; }
     }
 }

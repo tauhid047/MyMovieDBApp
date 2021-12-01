@@ -59,6 +59,9 @@ namespace MyMovieDBApp.Controllers
             CancellationToken cancellationToken = default;
             HttpResponseMessage resp = await client.SendAsync(requestMessage, cancellationToken).ConfigureAwait(false);
             string result = resp.Content.ReadAsStringAsync().Result;
+
+
+
             return result;
         }
 
