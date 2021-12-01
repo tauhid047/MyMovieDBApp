@@ -3,3 +3,10 @@
 ################################################################################
 
 /MyMovieDBApp/bin/Debug/netcoreapp2.1
+/MyMovieDBApp/MyMovieDBApp/.vs/MyMovieDBApp/DesignTimeBuild
+/MyMovieDBApp/MyMovieDBApp/.vs/MyMovieDBApp/v16
+/MyMovieDBApp/obj
+/.vs
+/MyMovieDBLib/bin/Debug/netstandard2.0
+/MyMovieDBLib/obj
+/MyMovieDBApp/MyMovieDBApp/.vs/MyMovieDBApp/config

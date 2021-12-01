@@ -43,7 +43,7 @@ namespace MyMovieDBApp.Controllers
             CancellationToken cancellationToken = default;
             HttpResponseMessage resp = await client.SendAsync(requestMessage, cancellationToken).ConfigureAwait(false);
             string json = resp.Content.ReadAsStringAsync().Result;
-            var result = JsonConvert.DeserializeObject<IEnumerable<SearchResult>>(json);
+            var result = JsonConvert.DeserializeObject<SearchResult>(json);
             return json;
         }
 
