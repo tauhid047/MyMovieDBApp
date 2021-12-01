@@ -33,19 +33,18 @@ namespace MyMovieDBApp.Service
         //};
         public User CreateUser(User User)
         {
-            User.Id = Guid.NewGuid();
             _UserContext.Users.Add(User);
             _UserContext.SaveChanges();
             return User;
         }
 
-        public void DeleteUser(Guid UserId)
+        public void DeleteUser(int userId)
         {
-            _UserContext.Users.Remove(GetUser(UserId));
+            _UserContext.Users.Remove(GetUser(userId));
             _UserContext.SaveChanges();
         }
 
-        public User GetUser(Guid id)
+        public User GetUser(int id)
         {
             return _UserContext.Users.Find(id);
         }
@@ -57,10 +56,8 @@ namespace MyMovieDBApp.Service
 
         public User UpdateUser(User User)
         {
-            User oldUser = GetUser(User.Id);
-            oldUser.FirstName = User.FirstName;
-            oldUser.MiddleName = User.MiddleName;
-            oldUser.LastName = User.LastName;
+            User oldUser = GetUser(User.UserId);
+            oldUser.UserName = User.UserName;
             return oldUser;
         }
     }

@@ -8,12 +8,12 @@ namespace MyMovieDBApp.Service.Interface
     {
         IEnumerable<User> GetUsers();
 
-        User GetUser(Guid id);
+        User GetUser(int id);
 
         User CreateUser(User User);
 
         User UpdateUser(User User);
 
-        void DeleteUser(Guid UserId);
+        void DeleteUser(int UserId);
     }
 }

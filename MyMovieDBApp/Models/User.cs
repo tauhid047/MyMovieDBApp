@@ -1,22 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MyMovieDBApp.Models
 {
+    [Table("User")]
     public class User
     {
         [Key]
-        public Guid Id { get; set; }
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int UserId { get; set; }
 
         [Required]
-        [MaxLength(20, ErrorMessage = "Maximum 20 characters allowed")]
-        public string FirstName { get; set; }
+        [Column("Name")]
+        public string UserName { get; set; }
 
-        [MaxLength(10, ErrorMessage = "Maximum 10 characters allowed")]
-        public string MiddleName { get; set; }
-        
-        [Required]
-        [MaxLength(15, ErrorMessage = "Maximum 15 characters allowed")]
-        public string LastName { get; set; }
+        public ICollection<SearchHistory> SearchHistories { get; set; }
     }
 }

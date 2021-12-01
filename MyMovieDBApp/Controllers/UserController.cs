@@ -30,7 +30,7 @@ namespace UserRecordManagerWebApplication.Controllers
 
 
         [HttpGet("{id}")]
-        public IActionResult Get(Guid id)
+        public IActionResult Get(int id)
         {
             User user = _UserService.GetUser(id);
 
@@ -45,16 +45,16 @@ namespace UserRecordManagerWebApplication.Controllers
         public IActionResult Post(User User)
         {
             _UserService.CreateUser(User);
-            return Created(HttpContext.Request.Scheme + "://" + HttpContext.Request.Host + HttpContext.Request.Path + "/" + User.Id, User);
+            return Created(HttpContext.Request.Scheme + "://" + HttpContext.Request.Host + HttpContext.Request.Path + "/" + User.UserId, User);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(Guid id, User user)
+        public IActionResult Put(int id, User user)
         {
             User oldUser = _UserService.GetUser(id);
             if (oldUser != null)
             {
-                user.Id = oldUser.Id;
+                user.UserId = oldUser.UserId;
                 _UserService.UpdateUser(user);
                 return Ok(user);
             }
@@ -62,7 +62,7 @@ namespace UserRecordManagerWebApplication.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(Guid id)
+        public IActionResult Delete(int id)
         {
             User User = _UserService.GetUser(id);
             if (User != null)
